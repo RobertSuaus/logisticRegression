@@ -1,0 +1,9 @@
+c:\users\robert\documents\visual studio 2015\Projects\LogisticRegression\LogisticRegression\bin\Debug\LogisticRegression.exe.config
+c:\users\robert\documents\visual studio 2015\Projects\LogisticRegression\LogisticRegression\bin\Debug\LogisticRegression.exe
+c:\users\robert\documents\visual studio 2015\Projects\LogisticRegression\LogisticRegression\bin\Debug\LogisticRegression.pdb
+c:\users\robert\documents\visual studio 2015\Projects\LogisticRegression\LogisticRegression\obj\Debug\LogisticRegression.csprojResolveAssemblyReference.cache
+c:\users\robert\documents\visual studio 2015\Projects\LogisticRegression\LogisticRegression\obj\Debug\LogisticRegression.Properties.Resources.resources
+c:\users\robert\documents\visual studio 2015\Projects\LogisticRegression\LogisticRegression\obj\Debug\LogisticRegression.csproj.GenerateResource.Cache
+c:\users\robert\documents\visual studio 2015\Projects\LogisticRegression\LogisticRegression\obj\Debug\LogisticRegression.exe
+c:\users\robert\documents\visual studio 2015\Projects\LogisticRegression\LogisticRegression\obj\Debug\LogisticRegression.pdb
+c:\users\robert\documents\visual studio 2015\Projects\LogisticRegression\LogisticRegression\obj\Debug\LogisticRegression.MainWindow.resources
