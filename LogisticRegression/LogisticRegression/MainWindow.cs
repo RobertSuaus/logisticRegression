@@ -15,6 +15,8 @@ namespace LogisticRegression
     {
         public String filePath="";
         public double[][] initValues = new Double[100][];
+        public double[] bestWeights = new Double[4];
+        LogisticClassifier lc;
         public MainWindow()
         {
             InitializeComponent();
@@ -24,6 +26,7 @@ namespace LogisticRegression
         public void main()
         {
             //Graficar los valores iniciales
+            log("Displaying initial values graph...");
             foreach (double[] data in initValues)
             {
                 if (data[2] == 0)
@@ -35,7 +38,22 @@ namespace LogisticRegression
                     graph.Series["Approved"].Points.AddXY(data[0], data[1]);
                 }
             }
-            log("Displaying initial values graph...");
+            log("Data succesfully displayed.");
+            log("Creating the logistic classifier");
+            log("With 2 attributes: Score 1 and Score 2");
+            //normalize data
+            int[] columns = new int[] {0, 1};
+            double[][] means = normalize(initValues, columns);
+            int numFeatures = 2;
+            lc = new LogisticClassifier(numFeatures, logBox);
+            int maxEpochs = 1000;
+            bestWeights = lc.Train(initValues, maxEpochs, 0.01);
+            testToolStripMenuItem.Enabled=true;
+            log("Weights found.");
+            log("Ready to test sigmoid function with Weight Vector: ");
+            showVector(bestWeights, 4);
+            
+            
         }
 
         //*****************************
@@ -47,6 +65,11 @@ namespace LogisticRegression
         {
             logBox.AppendText(str);
             logBox.AppendText(Environment.NewLine);
+        }
+
+        public void log_noLine(String str)
+        {
+            logBox.AppendText(str);
         }
 
         //Solicita la ruta del archivo
@@ -114,6 +137,65 @@ namespace LogisticRegression
         {
             MessageBox.Show("Tarea 3 de IA\nRoberto González\nCristian Xool", "Regresion Logistica",
                 MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
+
+        private void showVector(double[] vector, int decimals) 
+        {
+            for (int i = 0; i < vector.Length; ++i)
+                log_noLine(vector[i].ToString("F" + decimals) + " ");
+            log("");
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        public double[][] normalize(double[][] rawData, int[] columns)
+        {
+            int numRows = rawData.Length;
+            int numCols = rawData[0].Length;
+
+            double[][] result = new double[2][];
+            for (int i = 0; i < 2; ++i)
+                result[i] = new double[numCols];
+
+            for (int c=0; c< numCols; ++c)
+            {
+                //means of all cols
+                double sum = 0.0;
+                for (int r = 0; r < numRows; ++r)
+                    sum += rawData[r][c];
+                double mean = sum / numRows;
+                result[0][c] = mean; //save
+                //stdDevs of all cols
+                double sumSquares = 0.0;
+                for (int r = 0; r < numRows; ++r)
+                    sumSquares += (rawData[r][c] - mean) * (rawData[r][c] - mean);
+                double stdDev = Math.Sqrt(sumSquares / numRows);
+                result[1][c] = stdDev;
+            }
+            //normalize
+            for (int c=0; c<columns.Length; c++)
+            {
+                int j = columns[c];
+                double mean = result[0][j];
+                double stdDev = result[1][j];
+                for (int i = 0; i < numRows; ++i)
+                    rawData[i][j] = (rawData[i][j] - mean) / stdDev;
+            }
+            return result;
+        }
+
+        private void allDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            double trainAccuracy = lc.Accuracy(initValues, bestWeights);
+            log("Prediction accuracy on init data = " + trainAccuracy.ToString("F2"));
+        }
+
+        private void singleValueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
         }
     }
     
