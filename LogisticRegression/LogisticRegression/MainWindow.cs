@@ -14,6 +14,7 @@ namespace LogisticRegression
     public partial class MainWindow : Form
     {
         public String filePath="";
+        public double[][] values = new Double[100][];
         public double[][] initValues = new Double[100][];
         public double[] bestWeights = new Double[4];
         LogisticClassifier lc;
@@ -27,7 +28,7 @@ namespace LogisticRegression
         {
             //Graficar los valores iniciales
             log("Displaying initial values graph...");
-            foreach (double[] data in initValues)
+            foreach (double[] data in values)
             {
                 if (data[2] == 0)
                 {
@@ -43,11 +44,12 @@ namespace LogisticRegression
             log("With 2 attributes: Score 1 and Score 2");
             //normalize data
             int[] columns = new int[] {0, 1};
-            double[][] means = normalize(initValues, columns);
+            initValues = values;
+            double[][] means = normalize(values, columns);
             int numFeatures = 2;
             lc = new LogisticClassifier(numFeatures, logBox);
-            int maxEpochs = 1000;
-            bestWeights = lc.Train(initValues, maxEpochs, 0.01);
+            int maxEpochs = 2500;
+            bestWeights = lc.Train(values, maxEpochs, 0.001);
             testToolStripMenuItem.Enabled=true;
             log("Weights found.");
             log("Ready to test sigmoid function with Weight Vector: ");
@@ -111,7 +113,7 @@ namespace LogisticRegression
                 var test1 = double.Parse(fields[0]);
                 var test2 = double.Parse(fields[1]);
                 var result = double.Parse(fields[2]);
-                initValues[i] = new double[] { test1, test2, result };
+                values[i] = new double[] { test1, test2, result };
                 i++;
             }
             log("Data succesfully loaded");
@@ -189,7 +191,7 @@ namespace LogisticRegression
 
         private void allDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            double trainAccuracy = lc.Accuracy(initValues, bestWeights);
+            double trainAccuracy = lc.Accuracy(values, bestWeights);
             log("Prediction accuracy on init data = " + trainAccuracy.ToString("F2"));
         }
 

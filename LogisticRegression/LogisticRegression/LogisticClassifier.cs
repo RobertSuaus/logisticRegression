@@ -123,9 +123,6 @@ namespace LogisticRegression
             textArea.AppendText(Environment.NewLine);
         }
 
-        public void initWeights()
-        {
-            this.weights[0] = 2;
-        }
+        
     }
 }
